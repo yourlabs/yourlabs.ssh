@@ -1,0 +1,32 @@
+---
+
+- name: Install user
+  user:
+    name: '{{ username }}'
+    state: present
+    shell: /bin/bash
+    groups: '{% if usergroups %}{{ usergroups }},{% endif %}users'
+    append: yes
+
+- name: Install ssh public keys
+  authorized_key:
+    user: '{{ username }}'
+    state: present
+    key: '{{ curkey }}'
+  loop: "{{ lookup('url', key|default('https://github.com/' + username + '.keys'), wantlist=True) }}"
+  loop_control:
+    loop_var: curkey
+
+- name: Install user specific sudos if any
+  loop: '{{ sudos }}'
+  lineinfile:
+    path: /root/sudoers_{{ username }}
+    create: yes
+    line: '{{ username }} ALL=(ALL) NOPASSWD: {{ item }}'
+
+- when: sudos
+  block:
+  - name: Check sudo files syntax
+    shell: visudo -cf /root/sudoers_{{ username }} && cp /root/sudoers_{{ username }} /etc/sudoers.d/{{ username }}
+  rescue:
+  - fail: msg="/root/sudoers_{{ username }} did not pass syntax check"

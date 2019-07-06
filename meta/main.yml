@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: James Pic
+  role_name: ssh
+  description: Automatic OpenSSH configuration with user management
+  company: YourLabs
+  issue_tracker_url: https://yourlabs.io/oss/yourlabs.ssh/issues
+  license: MIT
+  min_ansible_version: 1.2
+  platforms:
+  - name: GenericLinux
+    versions:
+    - all
+
+dependencies: []

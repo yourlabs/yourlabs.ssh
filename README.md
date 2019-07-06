@@ -23,6 +23,10 @@ I will run this command:
 
     bigsudo yourlabs.ssh user@host --become --become-method=su --ask-become-pass
 
+And then to add a friend that doesn't have a github key:
+
+    bigsudo yourlabs.ssh adduser username=jimi key=https://yourlabs.io/hendrix.keys sudos='["ALL"]' --become -v @host
+
 Other examples
 --------------
 

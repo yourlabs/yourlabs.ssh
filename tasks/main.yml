@@ -1,5 +1,9 @@
 ---
 
+- name: Prevent locking yourself out, the firewall only allows ports 22 and 2222 for ssh so far
+  when: port|int not in (22, 2222)
+  fail: msg="Please set port to 22 or 2222"
+
 - name: Include OS specific vars file
   include_vars: 'vars/{{ ansible_os_family }}.yml'
 

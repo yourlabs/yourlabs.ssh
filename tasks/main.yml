@@ -1,11 +1,6 @@
 ---
 
-- name: Prevent locking yourself out, the firewall only allows ports 22 and 2222 for ssh so far
-  when: port|int not in (22, 2222)
-  fail: msg="Please set port to 22 or 2222"
-
-- name: Include OS specific vars file
-  include_vars: 'vars/{{ ansible_os_family }}.yml'
+- include: preflight.yml
 
 - name: Install packages to add user
   package: name={{ item }}
@@ -30,19 +25,7 @@
     state: present
   with_items: [users, sudo]
 
-- name: Find sshd configuration
-  stat: path=/etc/ssh/sshd_config
-  register: sshd_config
-
-- name: Update sshd configuration
-  notify: Restart sshd
-  when: sshd_config.stat.exists
-  with_dict: '{{ sshd_options }}'
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    line: '{{ item.key }} {{ item.value }}'
-    regexp: '^#?{{ item.key }}'
-    backup: yes
+- include: configure.yml
 
 - set_fact: username='{{ username|default(lookup("env", "USER")) }}'
 
@@ -52,17 +35,3 @@
   include_role:
     name: yourlabs.ssh
     tasks_from: adduser.yml
-
-- name: Persist configuration before updating firewall
-  include_role: name=yourlabs.remember
-  vars:
-    rolename: yourlabs.ssh
-    varnames:
-    - port
-    variables:
-      firewall:
-        - chain: TCP
-          protocol: tcp
-          match: tcp
-          destination_port: '{{ port }}'
-          jump: ACCEPT

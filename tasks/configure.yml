@@ -1,0 +1,24 @@
+---
+
+- include: preflight.yml
+
+- name: Find sshd configuration
+  stat: path=/etc/ssh/sshd_config
+  register: sshd_config
+
+- name: Update sshd configuration
+  notify: Restart sshd
+  when: sshd_config.stat.exists
+  with_dict: '{{ sshd_options }}'
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    line: '{{ item.key }} {{ item.value }}'
+    regexp: '^#?{{ item.key }}'
+    backup: yes
+
+- name: Persist configuration fact
+  include_role: name=yourlabs.remember
+  vars:
+    rolename: yourlabs.ssh
+    varnames:
+    - port

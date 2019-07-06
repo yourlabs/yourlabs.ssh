@@ -48,3 +48,17 @@
   include_role:
     name: yourlabs.ssh
     tasks_from: adduser.yml
+
+- name: Persist configuration before updating firewall
+  include_role: name=yourlabs.remember
+  vars:
+    rolename: yourlabs.ssh
+    varnames:
+    - port
+    variables:
+      firewall:
+        - chain: TCP
+          protocol: tcp
+          match: tcp
+          destination_port: '{{ port }}'
+          jump: ACCEPT

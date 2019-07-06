@@ -1,9 +1,10 @@
 ---
 usergroups:
-sudos: []
+sudos: ['{{ sudo|default("") }}']
+port: '{{ ansible_facts.ansible_local.yourlabs_ssh.port|default(22) }}'
 
 sshd_options:
   PermitRootLogin: 'no'
   PasswordAuthentication: 'no'
   PermitEmptyPasswords: 'no'
-#  Port: 2222
+  Port: '{{ port }}'

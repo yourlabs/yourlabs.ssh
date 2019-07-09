@@ -24,7 +24,7 @@
     create: yes
     line: '{{ username }} ALL=(ALL) NOPASSWD: {{ item }}'
 
-- when: sudos
+- when: sudos|bool
   block:
   - name: Check sudo files syntax
     shell: visudo -cf /root/sudoers_{{ username }} && cp /root/sudoers_{{ username }} /etc/sudoers.d/{{ username }}

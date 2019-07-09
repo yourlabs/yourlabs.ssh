@@ -14,6 +14,10 @@
     state: present
     key: '{{ user["name"]|key_pub_read }}'
 
+- name: Clean tempfile if any
+  shell: rm -rf /root/sudoers_{{ user.name }}
+  changed_when: false
+
 - name: Install user specific sudos if any
   when: "'sudo' in user"
   blockinfile:

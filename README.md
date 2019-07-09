@@ -21,7 +21,7 @@ of course python but bigsudo deals with that last part by itself.
 
 I will run this command:
 
-    bigsudo yourlabs.ssh user@host --become --become-method=su --ask-become-pass
+    bigsudo yourlabs.ssh user@host --become-method=su --ask-become-pass
 
 And then to add a friend that doesn't have a github key:
 
@@ -33,13 +33,13 @@ Other examples
 Example usages:
 
     # configure ssh as sudo, will add a sudo group with passwordless sudo
-    bigsudo yourlabs.ssh user@host -v --become
+    bigsudo yourlabs.ssh user@host -v
 
     # add a user with its github ssh keys
     bigsudo yourlabs.ssh user@host adduser username=jpic
 
     # add a user with a specific keys from a url
-    bigsudo yourlabs.ssh user@host adduser username=jpic key=https://yourlabs.io/jpic.keys --become --ask-become-pass
+    bigsudo yourlabs.ssh user@host adduser username=jpic key=https://yourlabs.io/jpic.keys
 
 Vagrant/VirtualBox
 ------------------
@@ -49,4 +49,4 @@ You can work in a VM if you have vagrant:
     cd yourlabs.ssh
     vagrant destroy -f && vagrant up
     vagrant ssh-config > ssh
-    bigsudo . --ssh-common-args="-F ssh" @default --become -v
+    bigsudo . --ssh-common-args="-F ssh" @default -v

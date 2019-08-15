@@ -32,6 +32,7 @@
 - name: Add your $USER with sudo and ssh key from github by default
   vars:
     sudos: [ALL]
+    usergroups: sudo
   include_role:
     name: yourlabs.ssh
     tasks_from: adduser.yml

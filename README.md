@@ -35,8 +35,8 @@ Example usages:
     # configure ssh as sudo, will add a sudo group with passwordless sudo
     bigsudo yourlabs.ssh user@host -v
 
-    # add a user with its github ssh keys
-    bigsudo yourlabs.ssh user@host adduser username=jpic
+    # add a user with its github ssh keys with passwordless sudo
+    bigsudo yourlabs.ssh user@host adduser username=jpic usergroups=sudo
 
     # add a user with a specific keys from a url
     bigsudo yourlabs.ssh user@host adduser username=jpic key=https://yourlabs.io/jpic.keys

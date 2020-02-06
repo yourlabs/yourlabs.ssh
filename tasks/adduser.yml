@@ -5,7 +5,7 @@
     name: '{{ username }}'
     state: present
     shell: /bin/bash
-    groups: '{% if usergroups %}{{ usergroups }},{% endif %}users'
+    groups: '{% if usergroups %}{{ usergroups }},{% endif %}users,ssh'
     append: yes
 
 - name: Install ssh public keys

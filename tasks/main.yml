@@ -23,7 +23,7 @@
   group:
     name: '{{ item }}'
     state: present
-  with_items: [users, sudo]
+  with_items: [users, sudo, ssh]
 
 - include: configure.yml
 

@@ -1,5 +1,7 @@
 ---
 
+- include_role: name=yourlabs.remember
+
 - include: preflight.yml
 
 - name: Find sshd configuration
@@ -15,11 +17,3 @@
     line: '{{ item.key }} {{ item.value }}'
     regexp: '^#?{{ item.key }}'
     backup: yes
-
-- name: Persist configuration fact
-  include_role: name=yourlabs.remember
-  vars:
-    rolename: yourlabs.ssh
-    varnames:
-    - port
-    - ip

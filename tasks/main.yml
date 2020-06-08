@@ -1,5 +1,7 @@
 ---
 
+- include_role: name=yourlabs.remember
+
 - include: preflight.yml
 
 - name: Install packages to add user

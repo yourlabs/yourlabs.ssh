@@ -1,15 +1,22 @@
 ---
 usergroups:
 sudos: ['{{ sudo|default("") }}']
-port: '{{ ansible_facts.ansible_local.yourlabs_ssh.port|default(22) }}'
-ip: '{{ ansible_facts.ansible_local.yourlabs_ssh.ip|default("0.0.0.0") }}'
 
 sshd_options:
   PermitRootLogin: 'no'
   PasswordAuthentication: 'no'
   PermitEmptyPasswords: 'no'
-  Port: '{{ port }}'
   KexAlgorithms: curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256
   Ciphers: aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com,chacha20-poly1305@openssh.com
   Macs: umac-128@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256
-  ListenAddress: '{{ ip }}'
+
+remember_fact: yourlabs_ssh
+remember:
+- name: ip
+  question: |
+    Do you want to deploy on a custom IP ?
+    If unsure leave empty (to bind all ips) and press enter
+  default: '{{ ansible_facts.ansible_local.yourlabs_ssh.ip|default("0.0.0.0") }}'
+- name: port
+  question: What port do you want to bind SSH on ?
+  default: 22

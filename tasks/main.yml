@@ -38,3 +38,9 @@
   include_role:
     name: yourlabs.ssh
     tasks_from: adduser.yml
+
+- name: Upload your terminfo
+  copy:
+    src: ~/.terminfo
+    dest: .
+    owner: '{{ username }}'
